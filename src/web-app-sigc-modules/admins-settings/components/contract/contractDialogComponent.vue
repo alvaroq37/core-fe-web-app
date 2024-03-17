@@ -18,9 +18,9 @@ import useContractService from '../../api/contract.service';
 
 const { dataResponseServiceListBusinessDiscount } =
   useBusinessDiscountService();
-const { dataResponseServiceListClient } = useClientService();
+const { dataResponseServiceClientFindByCi } = useClientService();
 const { dataResponseServiceListAgency } = useAgencyService();
-const { dataResponseServiceListJewel } = useJewelService();
+const { dataResponseServiceFindByIdJewel } = useJewelService();
 const { dataResponseServiceListCurrency } = useCurrencyService();
 const { dataResponseServiceContract } = useContractService();
 
@@ -35,14 +35,17 @@ const { storeBusinessDiscountListResponse } = storeToRefs(
   dataOperationBusinessDiscountStore
 );
 const { storeAgencyListResponse } = storeToRefs(dataOperationAgencyStore);
-const { storeClientListResponse } = storeToRefs(dataOperationClientStore);
-const { storeJewelListResponse } = storeToRefs(dataOperationJewelStore);
+const { storeClientFindByCi, storeClientResponseFind } = storeToRefs(
+  dataOperationClientStore
+);
+const { storeJewelListResponse, storeJewelFindById } = storeToRefs(
+  dataOperationJewelStore
+);
 const { storeCurrencyListResponse } = storeToRefs(dataOperationCurrencyStore);
 const { storeContractPersist } = storeToRefs(dataOperationContractStore);
 
 const optionsBusinessDiscount = storeBusinessDiscountListResponse;
 const optionsAgency = storeAgencyListResponse;
-const optionsClient = storeClientListResponse;
 const optionsJewel = storeJewelListResponse;
 const optionsCurrency = storeCurrencyListResponse;
 
@@ -53,12 +56,18 @@ const props = defineProps({
   },
 });
 
+const findClientByCi = () => {
+  dataResponseServiceClientFindByCi(storeClientFindByCi.value);
+};
+
+const findJewelById = () => {
+  dataResponseServiceFindByIdJewel(storeJewelFindById.value);
+};
+
 watch(props.dialogContract, () => {
   dataResponseServiceListAgency();
   dataResponseServiceListBusinessDiscount();
-  dataResponseServiceListClient();
   dataResponseServiceListCurrency();
-  dataResponseServiceListJewel();
 });
 </script>
 
@@ -71,27 +80,52 @@ watch(props.dialogContract, () => {
       <q-separator />
 
       <q-card-section class="q-pt-none">
+        <div class="q-gutter-xs col-xs-12 col-sm-12 col-md-6 q-pt-xl">
+          <q-input
+            style="width: 630px; display: inline-block"
+            standout
+            v-model="storeClientFindByCi.ci"
+            label="Ingrese el número de CI del cliente"
+          />
+          <q-btn
+            class="q-mx-xs"
+            push
+            color="primary"
+            label="Buscar"
+            type="submit"
+            @click="findClientByCi()"
+            icon="card_giftcard"
+          />
+
+          <q-input
+            style="width: 250px; display: inline-block"
+            standout
+            v-model:model-value="storeClientResponseFind.names"
+            label="Nombre del cliente"
+          />
+
+          <q-input
+            style="width: 250px; display: inline-block"
+            standout
+            v-model:model-value="storeClientResponseFind.lastNamesPaternal"
+            label="Apellido Paterno"
+          />
+          <q-input
+            style="width: 250px; display: inline-block"
+            standout
+            v-model:model-value="storeClientResponseFind.lastNamesMaternal"
+            label="Apellido Materno"
+          />
+        </div>
+      </q-card-section>
+      <q-separator />
+
+      <q-card-section class="q-pt-none">
         <div class="q-mb-md">
           <q-form
             class="q-gutter-xs col-xs-12 col-sm-12 col-md-6 q-pt-xl"
             style="display: inline-block"
           >
-            <q-select
-              style="width: 250px; display: inline-block"
-              standout
-              v-model="storeContractPersist.client"
-              :options="optionsClient"
-              option-value="id"
-              option-label="names"
-              label="Seleccione el cliente"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val !== null && val !== '') ||
-                  'Por favor seleccione un cliente',
-              ]"
-            />
-
             <q-select
               style="width: 250px; display: inline-block"
               standout
@@ -156,20 +190,42 @@ watch(props.dialogContract, () => {
               ]"
             />
             <q-input
-              style="width: 500px; display: inline-block"
+              style="width: 250px; display: inline-block"
               standout
               v-model="storeContractPersist.rate_interest"
               label="Ingrese el interes del contrato"
               type="number"
             />
             <q-input
-              style="width: 500px; display: inline-block"
+              style="width: 250px; display: inline-block"
               standout
               v-model="storeContractPersist.value"
               label="Ingrese el valor total del contrato"
               type="number"
             />
           </q-form>
+        </div>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section class="q-pt-none">
+        <div class="q-gutter-xs col-xs-12 col-sm-12 col-md-6 q-pt-xl">
+          <q-input
+            style="width: 630px; display: inline-block"
+            standout
+            v-model="storeJewelFindById.id"
+            label="Ingrese el número de ID de la joya"
+          />
+          <q-btn
+            class="q-mx-xs"
+            push
+            color="primary"
+            label="Buscar"
+            type="submit"
+            @click="findJewelById()"
+            icon="card_giftcard"
+          />
         </div>
       </q-card-section>
 

@@ -4,18 +4,51 @@ import {
   Client,
   ClientListResponse,
   ClientMessageResponse,
+  ClientFindByCi,
+  ClientFindByNames,
 } from '../interface/client.interface';
 import useClientComposable from '../composables/useClientComposable';
 import useClientStore from '../stores/useClientStore';
 import Swal from 'sweetalert2';
 
-const { composableListClient, composablePersistClient } = useClientComposable();
+const {
+  composableListClient,
+  composablePersistClient,
+  composableClientFindByCi,
+  composableClientFindByNames,
+} = useClientComposable();
 const dataOperationClientStore = useClientStore();
 
+const serviceClientFindByNames = async (
+  dataClient: ClientFindByNames
+): Promise<ClientListResponse> => {
+  const { data } = await consumeService.post(
+    REQUEST_API.CLIENT_FIND_NAME,
+    dataClient
+  );
+  const response: ClientListResponse = data;
+  return response;
+};
+
+const serviceClientFindByCi = async (
+  dataClient: ClientFindByCi
+): Promise<ClientListResponse> => {
+  const { data } = await consumeService.post(
+    REQUEST_API.CLIENT_FIND_CI,
+    dataClient
+  );
+  const response: ClientListResponse = data;
+  console.log(response);
+  return response;
+};
+
 const servicesPersistClient = async (
-  dataCity: Client
+  dataClient: Client
 ): Promise<ClientMessageResponse> => {
-  const response = await consumeService.post(REQUEST_API.CLIENT_SAVE, dataCity);
+  const response = await consumeService.post(
+    REQUEST_API.CLIENT_SAVE,
+    dataClient
+  );
   if (response.status == 200) {
     const responseMessage: ClientMessageResponse = response.data;
     Swal.fire({
@@ -55,9 +88,22 @@ const useClientService = () => {
     return dataResponse;
   };
 
+  const dataResponseServiceClientFindByNames = (data: ClientFindByNames) => {
+    const dataResponse = composableClientFindByNames(
+      serviceClientFindByNames(data)
+    );
+    return dataResponse;
+  };
+  const dataResponseServiceClientFindByCi = (data: ClientFindByCi) => {
+    const dataResponse = composableClientFindByCi(serviceClientFindByCi(data));
+    return dataResponse;
+  };
+
   return {
     dataResponseServiceClient,
     dataResponseServiceListClient,
+    dataResponseServiceClientFindByNames,
+    dataResponseServiceClientFindByCi,
   };
 };
 

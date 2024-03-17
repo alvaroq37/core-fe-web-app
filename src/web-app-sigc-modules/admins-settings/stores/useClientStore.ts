@@ -4,10 +4,32 @@ import {
   Client,
   ClientMessageResponse,
   ClientListResponse,
+  ClientFindByCi,
+  ClientFindByNames,
 } from '../interface/client.interface';
 
 const useClientStore = defineStore('useClientStore', () => {
   const storeClientListResponse = ref<ClientListResponse[]>([]);
+  const storeClientResponseFind = ref<ClientListResponse>({
+    id: 0,
+    ci: '',
+    names: '',
+    lastNamesPaternal: '',
+    lastNamesMaternal: '',
+    address: '',
+    cellPhone: 0,
+    phone: 0,
+    email: '',
+    dateBirth: null,
+    date_create: null,
+    date_update: null,
+    user_create: null,
+    user_update: null,
+    city: null,
+    sex: null,
+    occupation: null,
+    client_category: null,
+  });
   const storeClientPersist = ref<Client>({
     id: 0,
     ci: '',
@@ -29,6 +51,14 @@ const useClientStore = defineStore('useClientStore', () => {
     dateBirth: 0,
   });
 
+  const storeClientFindByNames = ref<ClientFindByNames>({
+    names: '',
+  });
+
+  const storeClientFindByCi = ref<ClientFindByCi>({
+    ci: '',
+  });
+
   const storeClientMessageResponsePersist = ref<ClientMessageResponse>({
     message: '',
   });
@@ -37,6 +67,9 @@ const useClientStore = defineStore('useClientStore', () => {
     storeClientPersist,
     storeClientMessageResponsePersist,
     storeClientListResponse,
+    storeClientFindByCi,
+    storeClientFindByNames,
+    storeClientResponseFind,
 
     getClientPersist() {
       return computed(() => storeClientPersist);
@@ -50,6 +83,14 @@ const useClientStore = defineStore('useClientStore', () => {
       return computed(() => storeClientMessageResponsePersist);
     },
 
+    getClientFindByCi() {
+      return computed(() => storeClientFindByCi);
+    },
+
+    getClientFindByNames() {
+      return computed(() => storeClientFindByNames);
+    },
+
     setStoreClientPersist(data: Client) {
       storeClientPersist.value = data;
     },
@@ -60,6 +101,14 @@ const useClientStore = defineStore('useClientStore', () => {
 
     setStoreClientMessageResponse(data: ClientMessageResponse) {
       storeClientMessageResponsePersist.value = data;
+    },
+
+    setStoreClientFindByCi(data: ClientListResponse) {
+      storeClientResponseFind.value = data;
+    },
+
+    setStoreClientFindByNames(data: ClientListResponse) {
+      storeClientResponseFind.value = data;
     },
 
     resetClient() {
@@ -82,6 +131,38 @@ const useClientStore = defineStore('useClientStore', () => {
         gender: null,
         client_category: null,
         dateBirth: 0,
+      };
+    },
+    resetClientFind() {
+      storeClientResponseFind.value = {
+        id: 0,
+        ci: '',
+        names: '',
+        lastNamesPaternal: '',
+        lastNamesMaternal: '',
+        address: '',
+        cellPhone: 0,
+        phone: 0,
+        email: '',
+        dateBirth: null,
+        date_create: null,
+        date_update: null,
+        user_create: null,
+        user_update: null,
+        city: null,
+        sex: null,
+        occupation: null,
+        client_category: null,
+      };
+    },
+    resetFindByCi() {
+      storeClientFindByCi.value = {
+        ci: '',
+      };
+    },
+    resetFindByNames() {
+      storeClientFindByNames.value = {
+        names: '',
       };
     },
   };

@@ -4,6 +4,8 @@ import { reactive } from 'vue';
 import useContractStore from 'src/web-app-sigc-modules/admins-settings/stores/useContractStore';
 import useBusinessDiscountStore from 'src/web-app-sigc-modules/admins-settings/stores/useBusinessDiscountStore';
 import useCurrencyStore from 'src/web-app-sigc-modules/admins-settings/stores/useCurrencyStore';
+import useClientStore from 'src/web-app-sigc-modules/admins-settings/stores/useClientStore';
+import useJewelStore from 'src/web-app-sigc-modules/admins-settings/stores/useJewelStore';
 
 import contractDialogComponent from '../components/contract/contractDialogComponent.vue';
 import businessDiscountDialogComponent from '../components/business-discount/businessDiscountDialogComponent.vue';
@@ -12,6 +14,8 @@ import currencyDialogComponent from '../components/currency/currencyDialogCompon
 const { resetBusinessDiscount } = useBusinessDiscountStore();
 const { resetContract } = useContractStore();
 const { resetCurrency } = useCurrencyStore();
+const { resetClientFind, resetFindByCi, resetFindByNames } = useClientStore();
+const { resetJewel, resetJewelFind, resetJewelFindById } = useJewelStore();
 
 const dialogContract = reactive({
   openModal: false,
@@ -24,6 +28,12 @@ const dialogCurrency = reactive({
 });
 
 const openModalContract = () => {
+  resetJewel();
+  resetJewelFind();
+  resetJewelFindById();
+  resetFindByCi();
+  resetFindByNames();
+  resetClientFind();
   resetContract();
   dialogContract.openModal = true;
 };

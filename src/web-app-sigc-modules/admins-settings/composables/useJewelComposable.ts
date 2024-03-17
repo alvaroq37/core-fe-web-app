@@ -5,8 +5,17 @@ import {
 import useJewelStore from '../stores/useJewelStore';
 
 const useJewel = () => {
-  const { setStoreJewelListResponse, setStoreJewelMessageResponse } =
-    useJewelStore();
+  const {
+    setStoreJewelListResponse,
+    setStoreJewelMessageResponse,
+    setStoreJewelFindById,
+  } = useJewelStore();
+
+  const composableFindByIdJewel = async (data: Promise<JewelListResponse>) => {
+    const jewelResponseFindById = await data;
+    const jewelResponse: JewelListResponse = jewelResponseFindById;
+    setStoreJewelFindById(jewelResponse);
+  };
 
   const composablePersistJewel = async (
     data: Promise<JewelMessageResponse>
@@ -22,7 +31,11 @@ const useJewel = () => {
     setStoreJewelListResponse(listResponse);
   };
 
-  return { composableListJewel, composablePersistJewel };
+  return {
+    composableListJewel,
+    composablePersistJewel,
+    composableFindByIdJewel,
+  };
 };
 
 export default useJewel;

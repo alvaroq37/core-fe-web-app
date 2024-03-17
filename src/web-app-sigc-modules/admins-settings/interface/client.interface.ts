@@ -35,16 +35,24 @@ export interface ClientListResponse {
   lastNamesPaternal: string;
   lastNamesMaternal: string;
   address: string;
-  cellPhone: number;
-  phone: number;
-  email: string;
-  dateBirth: number;
-  date_create: Date;
-  date_update: Date | null;
-  user_create: number;
+  cellPhone: number | null;
+  phone: number | null;
+  email: string | null;
+  dateBirth: string | null;
+  date_create: string | null;
+  date_update: string | null;
+  user_create: number | null;
   user_update: number | null;
-  city: City;
-  sex: Gender;
-  occupation: Occupation;
-  client_category: ClientCategory;
+  city: City | null;
+  sex: Gender | null;
+  occupation: Occupation | null;
+  client_category: ClientCategory | null;
+}
+
+export interface ClientFindByNames {
+  names: string;
+}
+
+export interface ClientFindByCi {
+  ci: string;
 }

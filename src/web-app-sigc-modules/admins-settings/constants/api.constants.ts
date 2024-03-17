@@ -8,6 +8,8 @@ const REQUEST_API = {
   CLIENT_LIST: 'rest/client/find/all',
   CLIENT_DELETE: 'rest/client/delete/',
   CLIENT_UPDATE: 'rest/client/update',
+  CLIENT_FIND_CI: 'rest/client/find/by/ci',
+  CLIENT_FIND_NAME: 'rest/client/find/by/name',
 
   CATEGORY_CLIENT_SAVE: 'rest/client/category/save',
   CATEGORY_CLIENT_LIST: 'rest/client/category/find/all',
@@ -43,6 +45,7 @@ const REQUEST_API = {
   JEWEL_LIST: 'rest/jewel/find/all',
   JEWEL_DELETE: 'rest/jewel/delete',
   JEWEL_UPDATE: 'rest/jewel/update',
+  JEWEL_FIND_ID: 'rest/jewel/find/by/id',
 
   MATERIAL_SAVE: 'rest/material/save',
   MATERIAL_LIST: 'rest/material/find/all',

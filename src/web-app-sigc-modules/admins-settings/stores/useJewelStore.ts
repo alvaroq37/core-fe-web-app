@@ -4,10 +4,26 @@ import {
   Jewel,
   JewelMessageResponse,
   JewelListResponse,
+  JewelFindById,
 } from '../interface/jewel.interface';
 
 const useJewelStore = defineStore('useJewelStore', () => {
   const storeJewelListResponse = ref<JewelListResponse[]>([]);
+  const storeJewelResponseFind = ref<JewelListResponse>({
+    id: 0,
+    jewel: '',
+    number_parts: 0,
+    jewel_type: 0,
+    gross_weight: 0,
+    net_weight: 0,
+    net_weight_loan: 0,
+    description: '',
+    date_create: null,
+    date_update: null,
+    user_create: null,
+    user_update: null,
+    material: null,
+  });
   const storeJewelPersist = ref<Jewel>({
     id: 0,
     jewel: '',
@@ -28,10 +44,16 @@ const useJewelStore = defineStore('useJewelStore', () => {
     message: '',
   });
 
+  const storeJewelFindById = ref<JewelFindById>({
+    id: '',
+  });
+
   return {
     storeJewelPersist,
     storeJewelMessageResponsePersist,
     storeJewelListResponse,
+    storeJewelResponseFind,
+    storeJewelFindById,
 
     getJewelPersist() {
       return computed(() => storeJewelPersist);
@@ -45,6 +67,10 @@ const useJewelStore = defineStore('useJewelStore', () => {
       return computed(() => storeJewelMessageResponsePersist);
     },
 
+    getJewelFindById() {
+      return computed(() => storeJewelFindById);
+    },
+
     setStoreJewelPersist(data: Jewel) {
       storeJewelPersist.value = data;
     },
@@ -55,6 +81,10 @@ const useJewelStore = defineStore('useJewelStore', () => {
 
     setStoreJewelMessageResponse(data: JewelMessageResponse) {
       storeJewelMessageResponsePersist.value = data;
+    },
+
+    setStoreJewelFindById(data: JewelListResponse) {
+      storeJewelResponseFind.value = data;
     },
 
     resetJewel() {
@@ -72,6 +102,30 @@ const useJewelStore = defineStore('useJewelStore', () => {
         user_create: 0,
         user_update: null,
         material: null,
+      };
+    },
+
+    resetJewelFind() {
+      storeJewelResponseFind.value = {
+        id: 0,
+        jewel: '',
+        number_parts: 0,
+        jewel_type: 0,
+        gross_weight: 0,
+        net_weight: 0,
+        net_weight_loan: 0,
+        description: '',
+        date_create: null,
+        date_update: null,
+        user_create: null,
+        user_update: null,
+        material: null,
+      };
+    },
+
+    resetJewelFindById() {
+      storeJewelFindById.value = {
+        id: '',
       };
     },
   };

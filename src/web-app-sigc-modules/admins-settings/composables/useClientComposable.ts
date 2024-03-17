@@ -5,9 +5,27 @@ import {
 import useClientStore from '../stores/useClientStore';
 
 const useClient = () => {
-  const { setStoreClientListResponse, setStoreClientMessageResponse } =
-    useClientStore();
+  const {
+    setStoreClientListResponse,
+    setStoreClientMessageResponse,
+    setStoreClientFindByCi,
+    setStoreClientFindByNames,
+  } = useClientStore();
 
+  const composableClientFindByNames = async (
+    data: Promise<ClientListResponse>
+  ) => {
+    const clientResponseFindByNames = await data;
+    const clientResponse: ClientListResponse = clientResponseFindByNames;
+    setStoreClientFindByNames(clientResponse);
+  };
+  const composableClientFindByCi = async (
+    data: Promise<ClientListResponse>
+  ) => {
+    const clientResponseFindByCi = await data;
+    const clientResponse: ClientListResponse = clientResponseFindByCi;
+    setStoreClientFindByCi(clientResponse);
+  };
   const composablePersistClient = async (
     data: Promise<ClientMessageResponse>
   ) => {
@@ -22,7 +40,12 @@ const useClient = () => {
     setStoreClientListResponse(listResponse);
   };
 
-  return { composableListClient, composablePersistClient };
+  return {
+    composableListClient,
+    composablePersistClient,
+    composableClientFindByCi,
+    composableClientFindByNames,
+  };
 };
 
 export default useClient;

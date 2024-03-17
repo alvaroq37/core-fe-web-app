@@ -4,18 +4,31 @@ import {
   Jewel,
   JewelListResponse,
   JewelMessageResponse,
+  JewelFindById,
 } from '../interface/jewel.interface';
 import useJewelComposable from '../composables/useJewelComposable';
 import useJewelStore from '../stores/useJewelStore';
 import Swal from 'sweetalert2';
 
-const { composableListJewel, composablePersistJewel } = useJewelComposable();
+const { composableListJewel, composablePersistJewel, composableFindByIdJewel } =
+  useJewelComposable();
 const dataOperationJewelStore = useJewelStore();
 
+const servicesFindByIdJewel = async (
+  dataJewel: JewelFindById
+): Promise<JewelListResponse> => {
+  const { data } = await consumeService.post(
+    REQUEST_API.JEWEL_FIND_ID,
+    dataJewel
+  );
+  const response: JewelListResponse = data;
+  return response;
+};
+
 const servicesPersistJewel = async (
-  dataCity: Jewel
+  dataJewel: Jewel
 ): Promise<JewelMessageResponse> => {
-  const response = await consumeService.post(REQUEST_API.JEWEL_SAVE, dataCity);
+  const response = await consumeService.post(REQUEST_API.JEWEL_SAVE, dataJewel);
   if (response.status == 200) {
     const responseMessage: JewelMessageResponse = response.data;
     Swal.fire({
@@ -55,9 +68,15 @@ const useJewelService = () => {
     return dataResponse;
   };
 
+  const dataResponseServiceFindByIdJewel = (data: JewelFindById) => {
+    const dataResponse = composableFindByIdJewel(servicesFindByIdJewel(data));
+    return dataResponse;
+  };
+
   return {
     dataResponseServiceJewel,
     dataResponseServiceListJewel,
+    dataResponseServiceFindByIdJewel,
   };
 };
 

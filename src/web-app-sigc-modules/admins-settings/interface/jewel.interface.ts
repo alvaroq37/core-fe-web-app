@@ -24,13 +24,16 @@ export interface JewelListResponse {
   net_weight: number;
   net_weight_loan: number;
   description: string;
-  date_create: Date;
+  date_create: Date | null;
   date_update: Date | null;
-  user_create: number;
+  user_create: number | null;
   user_update: number | null;
   material: Material | null;
 }
 
 export interface JewelMessageResponse {
   message: string;
+}
+export interface JewelFindById {
+  id: string;
 }
