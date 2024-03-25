@@ -15,7 +15,8 @@ const { resetBusinessDiscount } = useBusinessDiscountStore();
 const { resetContract } = useContractStore();
 const { resetCurrency } = useCurrencyStore();
 const { resetClientFind, resetFindByCi, resetFindByNames } = useClientStore();
-const { resetJewel, resetJewelFind, resetJewelFindById } = useJewelStore();
+const { resetJewel, resetJewelFindById, resetJewelListResponse } =
+  useJewelStore();
 
 const dialogContract = reactive({
   openModal: false,
@@ -29,7 +30,7 @@ const dialogCurrency = reactive({
 
 const openModalContract = () => {
   resetJewel();
-  resetJewelFind();
+  resetJewelListResponse();
   resetJewelFindById();
   resetFindByCi();
   resetFindByNames();

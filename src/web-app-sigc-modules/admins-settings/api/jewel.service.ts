@@ -9,6 +9,7 @@ import {
 import useJewelComposable from '../composables/useJewelComposable';
 import useJewelStore from '../stores/useJewelStore';
 import Swal from 'sweetalert2';
+import { reactive, ref } from 'vue';
 
 const { composableListJewel, composablePersistJewel, composableFindByIdJewel } =
   useJewelComposable();

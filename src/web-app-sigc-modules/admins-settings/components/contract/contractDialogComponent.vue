@@ -2,6 +2,8 @@
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 
+import { JewelListResponse } from '../../interface/jewel.interface';
+
 import useBusinessDiscountStore from '../../stores/useBusinessDiscountStore';
 import useClientStore from '../../stores/useClientStore';
 import useAgencyStore from '../../stores/useAgencyStore';
@@ -38,7 +40,7 @@ const { storeAgencyListResponse } = storeToRefs(dataOperationAgencyStore);
 const { storeClientFindByCi, storeClientResponseFind } = storeToRefs(
   dataOperationClientStore
 );
-const { storeJewelListResponse, storeJewelFindById } = storeToRefs(
+const { storeJewelFindById, storeJewelListDetail } = storeToRefs(
   dataOperationJewelStore
 );
 const { storeCurrencyListResponse } = storeToRefs(dataOperationCurrencyStore);
@@ -46,7 +48,6 @@ const { storeContractPersist } = storeToRefs(dataOperationContractStore);
 
 const optionsBusinessDiscount = storeBusinessDiscountListResponse;
 const optionsAgency = storeAgencyListResponse;
-const optionsJewel = storeJewelListResponse;
 const optionsCurrency = storeCurrencyListResponse;
 
 const props = defineProps({
@@ -69,11 +70,58 @@ watch(props.dialogContract, () => {
   dataResponseServiceListBusinessDiscount();
   dataResponseServiceListCurrency();
 });
+
+const columns = [
+  {
+    name: 'id',
+    required: true,
+    label: 'Código',
+    align: 'left',
+    field: (row: JewelListResponse) => row.id,
+    sortable: true,
+  },
+  // {
+  //   name: 'jewel',
+  //   align: 'center',
+  //   label: 'Joya',
+  //   field: 'jewel',
+  // },
+  // {
+  //   name: 'description',
+  //   align: 'center',
+  //   label: 'Descripción',
+  //   field: 'description',
+  // },
+  // {
+  //   name: 'grossWeight',
+  //   align: 'center',
+  //   label: 'grossWeight',
+  //   field: 'grossWeight',
+  // },
+  // {
+  //   name: 'netWeight',
+  //   align: 'center',
+  //   label: 'netWeight',
+  //   field: 'netWeight',
+  // },
+  // {
+  //   name: 'netWeightLoan',
+  //   align: 'center',
+  //   label: 'netWeightLoan',
+  //   field: 'netWeightLoan',
+  // },
+  // {
+  //   name: 'material',
+  //   label: 'Kilate',
+  //   align: 'left',
+  //   field: (row: JewelListResponse) => row.material?.karat,
+  // },
+];
 </script>
 
 <template>
   <q-dialog v-model="$props.dialogContract.openModal">
-    <q-card class="my-card" style="width: 800px; max-width: 80vw">
+    <q-card class="my-card" style="width: 850px; max-width: 80vw">
       <q-card-section>
         <span class="text-h6">Registro de Contrato</span>
       </q-card-section>
@@ -145,22 +193,6 @@ watch(props.dialogContract, () => {
             <q-select
               style="width: 250px; display: inline-block"
               standout
-              v-model="storeContractPersist.jewel"
-              :options="optionsJewel"
-              option-value="id"
-              option-label="jewel"
-              label="Seleccione la joya"
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val !== null && val !== '') ||
-                  'Por favor seleccione una joya',
-              ]"
-            />
-
-            <q-select
-              style="width: 250px; display: inline-block"
-              standout
               v-model="storeContractPersist.currency"
               :options="optionsCurrency"
               option-value="id"
@@ -226,6 +258,15 @@ watch(props.dialogContract, () => {
             @click="findJewelById()"
             icon="card_giftcard"
           />
+        </div>
+        <div class="q-pa-md">
+          <q-table
+            title="Detalle de Joyas"
+            :rows="storeJewelListDetail"
+            :columns="columns"
+            row-key="name"
+          >
+          </q-table>
         </div>
       </q-card-section>
 

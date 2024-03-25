@@ -9,6 +9,7 @@ import {
 
 const useJewelStore = defineStore('useJewelStore', () => {
   const storeJewelListResponse = ref<JewelListResponse[]>([]);
+  const storeJewelListDetail = ref<JewelListResponse[]>([]);
   const storeJewelResponseFind = ref<JewelListResponse>({
     id: 0,
     jewel: '',
@@ -54,6 +55,7 @@ const useJewelStore = defineStore('useJewelStore', () => {
     storeJewelListResponse,
     storeJewelResponseFind,
     storeJewelFindById,
+    storeJewelListDetail,
 
     getJewelPersist() {
       return computed(() => storeJewelPersist);
@@ -127,6 +129,10 @@ const useJewelStore = defineStore('useJewelStore', () => {
       storeJewelFindById.value = {
         id: '',
       };
+    },
+
+    resetJewelListResponse() {
+      storeJewelListResponse.value = [];
     },
   };
 });
